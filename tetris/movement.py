@@ -4,8 +4,18 @@ class Movement:
         pass
 
     @staticmethod
-    def side_ways(board, movement):
+    def move(board, movement):
         piece_prime = board.piece.move(movement)
+        try:
+            new_board = board.update_piece(piece_prime)
+        except ValueError:
+            return board
+
+        return new_board
+
+    @staticmethod
+    def rotate(board):
+        piece_prime = board.piece.rotate()
         try:
             new_board = board.update_piece(piece_prime)
         except ValueError:

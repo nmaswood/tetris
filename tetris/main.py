@@ -15,7 +15,7 @@ atexit.register(t.restore_terminal, original_terminal_state)
 
 def main():
     board = Board(10, 10)
-    simple_piece = Piece(PIECES[0], (0, 0))
+    simple_piece = Piece(PIECES[1], (1, 1))
     board = board.add_piece(simple_piece)
 
     while True:
@@ -24,7 +24,10 @@ def main():
 
         # rename func at some point
         if direction in {'left', 'right', 'down'}:
-            board = Movement.side_ways(board, direction)
+            board = Movement.move(board, direction)
+        elif direction == 'up':
+            board = Movement.rotate(board)
+
 
 if __name__ == '__main__':
     main()

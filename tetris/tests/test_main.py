@@ -46,8 +46,12 @@ def test_move():
     simple_piece = Piece(PIECES[0], (0, 0))
     board = board.add_piece(simple_piece)
 
-    # right_one = Movement.side_ways(board, 'right')
-    # assert str(right_one) == '************\n| ####     |\n|          |\n|          |\n|          |\n|          |\n|          |\n|          |\n|          |\n|          |\n|          |\n************'  # noqa
+    right_one = Movement.move(board, 'right')
+    assert str(right_one) == '************\n| ####     |\n|          |\n|          |\n|          |\n|          |\n|          |\n|          |\n|          |\n|          |\n|          |\n************'  # noqa
 
-    left_one = Movement.side_ways(board, 'left')
+    left_one = Movement.move(board, 'left')
     assert str(left_one) == str(board)
+
+
+def test_rotate():
+    pass

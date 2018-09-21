@@ -3,6 +3,7 @@ import numpy as np
 
 from pdb import set_trace
 
+
 PIECES = [
     (
         [1, 1, 1, 1],
@@ -67,8 +68,8 @@ class Piece:
 
     def rotate(self):
         copy = self.clone()
-        transposed = np.transpose(copy.piece_type).tolist()
-        copy.piece_type = transposed
+        rotated = list(zip(*copy.piece_type[::-1]))
+        copy.piece_type = rotated
         return copy
 
     def squares(self):

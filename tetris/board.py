@@ -1,5 +1,6 @@
-from piece import Piece
+from tetris.piece import Piece
 from copy import deepcopy
+from pdb import set_trace
 
 
 class Board():
@@ -8,7 +9,7 @@ class Board():
         self.height = height
 
         if board is None:
-            self.board = Board.init_board()
+            self.board = Board.init_board(width, height)
         else:
             self.board = board
 
@@ -28,37 +29,63 @@ class Board():
             for _ in range(height)
         ]
 
-    def remove_old_piece(self):
+    def invalid(self, row_i, col_i):
+        if 0 < row_i <= self.board.width:
+            return True
+
+        if 0 < col_i <= self.board.height:
+            return True
+
+        if self.board[row_i][col_i] != ' ':
+            return True
+
+        return False
+
+    def remove_piece(self):
         copy = self.clone()
-        squares = Piece.squares(self.piece)
+
+        if not self.piece:
+            return copy
+
+        squares = Piece.squares(copy.piece)
 
         for (row_i, col_i) in squares:
-            copy.board[row_i][col_i] = ''
-        self.piece = None
+            copy.board[row_i][col_i] = ' '
+        copy.piece = None
         return copy
 
-    @staticmethod
-    def add_piece(board, piece):
+    def add_piece(self, piece):
         copy = self.clone()
-        squares = Piece.squares(self.piece)
+        copy.piece = piece
+
+        squares = Piece.squares(piece)
 
         for (row_i, col_i) in squares:
             copy.board[row_i][col_i] = '#'
 
-        self.piece = piece
+        copy.piece = piece
         return copy
 
-    def render_board(board, width, height, piece):
-        string_builder = []
-        stars = ''.join((['*'] * width))
+    def update_piece(self, piece):
+        removed = self.remove_piece()
+        added = removed.add_piece(piece)
 
-    def update_board():
-        pass
+        return added
 
     def __str__(self):
-        stars = ''.join((['*'] * self.width))
+        string_builder = []
+        stars = ''.join((['*'] * (self.width + 2)))
+        string_builder.append(stars)
+        for row in self.board:
+            addition = ''.join([
+                '|',
+                ''.join(row),
+                '|'
+            ])
+            string_builder.append(addition)
+        string_builder.append(stars)
 
-        pass
+        return '\n'.join(string_builder)
 
     def __repr__(self):
         return str(self)

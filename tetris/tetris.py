@@ -18,4 +18,4 @@ draw_board()
 # This code waits for input until the user hits a keystroke. getinput() returns one of "left", "up", "right",
 # "down".
 while True:
-    print(get_input())
+    get_input()

@@ -1,4 +1,5 @@
 from copy import deepcopy
+import numpy as np
 
 PIECES = [
     (
@@ -41,17 +42,29 @@ class Piece:
         copy = deepcopy(self.piece_type)
         return Piece(copy, self.center)
 
-    @staticmethod
-    def rotate(piece):
-        pass
+    def move(self, direction):
+        copy = self.clone
+        (row, col) = copy.center
 
-    @staticmethod
-    def collision(board, piece):
-        pass
+        if direction == 'down':
+            row -= 1
+        elif direction == 'right':
+            col += 1
+        elif direction == 'down':
+            col -= 1
 
-    @staticmethod
-    def squares(piece):
-        center, piece_type = piece.center, piece.piece_type
+        copy.center = (row, col)
+
+        return copy
+
+    def rotate(self):
+        copy = self.clone
+        transposed = np.transpose(copy.piece_type).tolist()
+        copy.piece_type = transposed
+        return copy
+
+    def squares(self):
+        center, piece_type = self.center, self.piece_type
 
         coordinates = set()
 
@@ -65,3 +78,22 @@ class Piece:
                 col_prime = col_idx + col_0
                 coordinates.add((row_prime, col_prime))
         return coordinates
+
+    def squares_no_collision(self, board):
+        safe_coordinates = set()
+        coordinates = self.squares()
+
+        for (row_i, col_i) in coordinates:
+
+            if 0 < row_i <= board.width:
+                continue
+
+            if 0 < col_i <= board.height:
+                continue
+
+            if board[row_i][col_i] != ' ':
+                continue
+
+            safe_coordinates.add((row_i, col_i))
+
+        return safe_coordinates

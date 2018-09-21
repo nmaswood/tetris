@@ -52,6 +52,3 @@ def test_move():
     left_one = Movement.move(board, 'left')
     assert str(left_one) == str(board)
 
-
-def test_rotate():
-    pass

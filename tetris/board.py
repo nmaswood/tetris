@@ -97,3 +97,18 @@ class Board():
 
     def __repr__(self):
         return str(self)
+
+    def find_bottom(self, piece):
+        squares = piece.squares()
+
+        for (row_i, col_i) in squares:
+
+            one_past = row_i + 1
+
+            if one_past >= self.height:
+                return (True, row_i, col_i)
+            item_at_square = self.board[one_past][col_i]
+            if item_at_square == '#':
+                if (one_past, col_i) not in squares:
+                    return (True, row_i, col_i)
+        return False, None, None

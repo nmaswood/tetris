@@ -52,3 +52,13 @@ def test_move():
     left_one = Movement.move(board, 'left')
     assert str(left_one) == str(board)
 
+
+def test_remove_line():
+    board = Board(10, 10)
+    simple_piece = Piece(PIECES[0], (9, 0))
+    board = board.add_piece(simple_piece)
+    simple_piece = Piece(PIECES[0], (9, 4))
+    board = board.add_piece(simple_piece)
+    board.board[9][8] = '#'
+    board.board[9][9] = '#'
+    board.line_full_update()

@@ -104,11 +104,37 @@ class Board():
         for (row_i, col_i) in squares:
 
             one_past = row_i + 1
-
-            if one_past >= self.height:
+            try:
+                item_at_square = self.board[one_past][col_i]
+            except:
                 return (True, row_i, col_i)
-            item_at_square = self.board[one_past][col_i]
+
             if item_at_square == '#':
                 if (one_past, col_i) not in squares:
                     return (True, row_i, col_i)
+
         return False, None, None
+
+    def _line_full_update(self):
+
+        remove_indexes = set()
+
+        for row_idx, row in enumerate(self.board):
+            if all(item == '#' for item in row):
+                remove_indexes.add(row_idx)
+
+        new_rows = []
+        for row_idx, row in enumerate(self.board):
+            if row_idx not in remove_indexes:
+                new_rows.append(row)
+
+        while len(new_rows) < self.height:
+            new_row = [' ' for _ in range(self.width)]
+            new_rows.insert(0, new_row)
+        return new_rows
+
+    def line_full_update(self):
+        copy = self.clone()
+        new_board = self._line_full_update()
+        copy.board = new_board
+        return copy

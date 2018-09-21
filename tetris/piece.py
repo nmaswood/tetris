@@ -1,5 +1,6 @@
 from copy import deepcopy
 import numpy as np
+from random import choice, randint
 
 from pdb import set_trace
 
@@ -95,3 +96,11 @@ class Piece:
             if board.invalid(row_i, col_i):
                 return None
         return coordinates
+
+    @staticmethod
+    def random():
+        piece = Piece(choice(PIECES), (0,0))
+
+        for _ in range(randint(1, 5)):
+            piece = piece.rotate()
+        return piece

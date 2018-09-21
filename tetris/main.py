@@ -16,23 +16,28 @@ atexit.register(t.restore_terminal, original_terminal_state)
 def main():
     board = Board(10, 10)
 
-    simple_piece = Piece(PIECES[1], (8, 1))
+    simple_piece = Piece(PIECES[0], (9, 0))
     board = board.add_piece(simple_piece)
+
+    simple_piece = Piece(PIECES[0], (9, 4))
+    board = board.add_piece(simple_piece)
+
     simple_piece = Piece(PIECES[1], (1, 1))
     board = board.add_piece(simple_piece)
 
     while True:
         print(board)
         direction = t.get_input()
+        board = board.line_full_update()
 
         if not board.piece:
+            board.piece = Piece.random()
             continue
 
         bottom, row_i, col_i = board.find_bottom(board.piece)
         if bottom:
             board.piece = None
             continue
-        print(bottom, row_i, col_i)
 
         if direction in {'left', 'right', 'down'}:
             board = Movement.move(board, direction)

@@ -55,7 +55,7 @@ class Piece:
         (row, col) = copy.center
 
         if direction == 'down':
-            row -= 1
+            row += 1
         elif direction == 'right':
             col += 1
         elif direction == 'left':

@@ -19,13 +19,12 @@ def main():
     board = board.add_piece(simple_piece)
 
     while True:
+        print(board)
         direction = t.get_input()
 
-        if direction in {'left', 'right'}:
-            modified_board = Movement.side_ways(board, direction)
-            if modified_board:
-                board = modified_board
-
+        # rename func at some point
+        if direction in {'left', 'right', 'down'}:
+            board = Movement.side_ways(board, direction)
 
 if __name__ == '__main__':
     main()

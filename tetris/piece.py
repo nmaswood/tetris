@@ -1,6 +1,8 @@
 from copy import deepcopy
 import numpy as np
 
+from pdb import set_trace
+
 PIECES = [
     (
         [1, 1, 1, 1],
@@ -38,19 +40,25 @@ class Piece:
         self.piece_type = deepcopy(piece_type)
         self.center = center
 
+    def __str__(self):
+        return '\n'.join(['\n'.join(map(str, self.piece_type)), str(self.center)])
+
+    def __repr__(self):
+        return str(self)
+
     def clone(self):
         copy = deepcopy(self.piece_type)
         return Piece(copy, self.center)
 
     def move(self, direction):
-        copy = self.clone
+        copy = self.clone()
         (row, col) = copy.center
 
         if direction == 'down':
             row -= 1
         elif direction == 'right':
             col += 1
-        elif direction == 'down':
+        elif direction == 'left':
             col -= 1
 
         copy.center = (row, col)
@@ -58,7 +66,7 @@ class Piece:
         return copy
 
     def rotate(self):
-        copy = self.clone
+        copy = self.clone()
         transposed = np.transpose(copy.piece_type).tolist()
         copy.piece_type = transposed
         return copy
@@ -79,21 +87,10 @@ class Piece:
                 coordinates.add((row_prime, col_prime))
         return coordinates
 
-    def squares_no_collision(self, board):
-        safe_coordinates = set()
+    def squares_no_collisions(self, board):
         coordinates = self.squares()
 
         for (row_i, col_i) in coordinates:
-
-            if 0 < row_i <= board.width:
-                continue
-
-            if 0 < col_i <= board.height:
-                continue
-
-            if board[row_i][col_i] != ' ':
-                continue
-
-            safe_coordinates.add((row_i, col_i))
-
-        return safe_coordinates
+            if board.invalid(row_i, col_i):
+                return None
+        return coordinates

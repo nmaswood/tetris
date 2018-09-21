@@ -1,5 +1,6 @@
 from tetris.piece import PIECES, Piece
 from tetris.board import Board
+from tetris.movement import Movement
 
 from pdb import set_trace
 
@@ -37,8 +38,16 @@ def test_board_str():
 
     empty_board = board_with_l.remove_piece()
 
-    assert str(empty_board) == '************\n|          |\n|          |\n|          |\n|          |\n|          |\n|          |\n|          |\n|          |\n|          |\n|          |\n************' # noqa
+    assert str(empty_board) == '************\n|          |\n|          |\n|          |\n|          |\n|          |\n|          |\n|          |\n|          |\n|          |\n|          |\n************'  # noqa
 
 
+def test_move():
+    board = Board(10, 10)
+    simple_piece = Piece(PIECES[0], (0, 0))
+    board = board.add_piece(simple_piece)
 
+    # right_one = Movement.side_ways(board, 'right')
+    # assert str(right_one) == '************\n| ####     |\n|          |\n|          |\n|          |\n|          |\n|          |\n|          |\n|          |\n|          |\n|          |\n************'  # noqa
 
+    left_one = Movement.side_ways(board, 'left')
+    assert str(left_one) == str(board)

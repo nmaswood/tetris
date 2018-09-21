@@ -30,10 +30,10 @@ class Board():
         ]
 
     def invalid(self, row_i, col_i):
-        if 0 < row_i <= self.board.width:
+        if not (0 <= row_i < self.width):
             return True
 
-        if 0 < col_i <= self.board.height:
+        if not (0 <= col_i < self.height):
             return True
 
         if self.board[row_i][col_i] != ' ':
@@ -58,7 +58,10 @@ class Board():
         copy = self.clone()
         copy.piece = piece
 
-        squares = Piece.squares(piece)
+        # set_trace()
+        squares = piece.squares_no_collisions(self)
+        if not squares:
+            return None
 
         for (row_i, col_i) in squares:
             copy.board[row_i][col_i] = '#'
@@ -68,7 +71,12 @@ class Board():
 
     def update_piece(self, piece):
         removed = self.remove_piece()
+        # set_trace()
+
         added = removed.add_piece(piece)
+
+        if not added:
+            raise ValueError("Invalid piece movement")
 
         return added
 

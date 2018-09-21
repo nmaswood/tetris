@@ -6,10 +6,9 @@ class Movement:
     @staticmethod
     def side_ways(board, movement):
         piece_prime = board.piece.move(movement)
+        try:
+            new_board = board.update_piece(piece_prime)
+        except ValueError:
+            return board
 
-        if board.invalid(piece_prime):
-            return
-
-        new_board = board.update_piece(piece_prime)
         return new_board
-

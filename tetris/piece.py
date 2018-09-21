@@ -98,9 +98,15 @@ class Piece:
         return coordinates
 
     @staticmethod
-    def random():
-        piece = Piece(choice(PIECES), (0,0))
+    def random(width):
+        piece = Piece(choice(PIECES), (0, width // 2))
 
         for _ in range(randint(1, 5)):
             piece = piece.rotate()
         return piece
+
+    def delta_center(self, row_delta, col_delta):
+        copy = self.clone()
+        (row_i, col_i) = copy.center
+        copy.center = (row_i + row_delta, col_i + col_delta)
+        return copy
